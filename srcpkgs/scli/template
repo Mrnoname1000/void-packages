@@ -1,0 +1,40 @@
+# Template file for 'scli'
+pkgname=scli
+version=0dfafc87995f79ee7ee59f05e6d7064720a04352
+revision=1
+#wrksrc=
+create_wrksrc=yes
+#archs="i686 x86_64"
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+#hostmakedepends=""
+#makedepends=""
+depends="signal-cli libmatthew-java python3-urwid"
+short_desc="Simple terminal user interface for signal messenger"
+maintainer="Oliver Nutter <mrnoname1000@riseup.net>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/isamert/scli"
+distfiles="https://raw.githubusercontent.com/isamert/scli/${version}/scli"
+distfiles+=" https://raw.githubusercontent.com/isamert/scli/${version}/README.md"
+distfiles+=" https://raw.githubusercontent.com/isamert/scli/${version}/LICENSE"
+skip_extraction="scli README.md LICENSE"
+checksum="0987f1cb48df599e4d61b330ddb31325bfc5d2824f78879735cebd8e8f8cd4c9
+ 2b4afe02d530b609b33f929f7dd7bd7768235f8ce2ad60fdde14cefc2637d3e0
+ 3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+
+pre_install() {
+	mv "${XBPS_SRCDISTDIR}/${pkgname}-${version}/scli" "${XBPS_SRCDISTDIR}/${pkgname}-${version}/README.md" "${XBPS_SRCDISTDIR}/${pkgname}-${version}/LICENSE" "${wrksrc}"
+	ls "${XBPS_SRCDISTDIR}/${pkgname}-${version}"
+	echo "build: ${XBPS_SRCDISTDIR}/${pkgname}-${version}"
+}
+do_install() {
+	ls "${wrksrc}"
+	echo "${wrksrc}"
+
+	vbin "${wrksrc}/scli"
+	vdoc "${wrksrc}/README.md"
+	vlicense "${wrksrc}/LICENSE"
+}
