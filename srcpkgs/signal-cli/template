@@ -1,0 +1,30 @@
+# Template file for 'signal-cli'
+pkgname=signal-cli
+version=0.6.5
+revision=1
+#build_wrksrc="signal-cli-$version"
+hostmakedepends="gradle asciidoc"
+depends="openjdk-jre libmatthew-java dbus"
+short_desc="Commandline interface for Signal Private Messenger"
+maintainer="Oliver Nutter <mrnoname1000@riseup.net>"
+license="GPL-3.0"
+homepage="https://github.com/AsamK/signal-cli"
+distfiles="https://github.com/AsamK/signal-cli/archive/v${version}.tar.gz"
+checksum=1b6fda64ff24e7c5d97506b4b01988d1572cc706fd7fcec7b50555b691f31994
+
+do_build() {
+	gradle build
+	gradle installDist
+	make -C man
+}
+
+do_install() {
+	vbin "build/install/signal-cli/bin/signal-cli"
+
+	for file in build/install/signal-cli/lib/* ; do
+		vinstall "$file" 0644 usr/lib
+	done
+
+	vman "man/signal-cli.1"
+	vlicense LICENSE
+}

@@ -1,0 +1,31 @@
+# Template file for 'gcn64tools'
+pkgname=gcn64tools
+_longname=raphnet-tech_adapter_manager
+version=2.1.19
+revision=1
+wrksrc="${_longname}-${version}"
+build_style=gnu-makefile
+hostmakedepends="pkg-config make"
+makedepends="hidapi-devel gtk+3-devel libxml2 zlib-devel glib-devel"
+depends="dfu-programmer"
+short_desc="Tools to manage Raphnet USB controller adapters"
+maintainer="Oliver Nutter <mrnoname1000@riseup.net>"
+license="GPL-3.0"
+homepage="https://www.raphnet-tech.com/products/adapter_manager/index.php"
+distfiles="https://www.raphnet-tech.com/downloads/${_longname}-${version}.tar.gz"
+checksum=ba349102968fe1e13d210bfa32971d760f431796678812f5b22884b9880be2df
+
+do_build() {
+	make -C src
+}
+
+do_install() {
+	vmkdir usr
+	vmkdir usr/bin
+	make PREFIX="${DESTDIR}/usr" -C src install
+
+	vinstall scripts/10-atmel-dfu.rules 644 usr/lib/udev/rules.d
+	vinstall scripts/10-raphnet.rules 644 usr/lib/udev/rules.d
+
+	vlicense LICENSE
+}

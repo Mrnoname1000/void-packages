@@ -1,0 +1,26 @@
+# Template file for 'libmatthew-java'
+pkgname=libmatthew-java
+version=0.8.1
+revision=1
+build_style=gnu-makefile
+make_dirs="/usr/lib/jni 0755 root root"
+make_dirs="/usr/share/java 0755 root root"
+make_dirs="/usr/share/doc/libmatthew-java 0755 root root"
+make_use_env=yes
+hostmakedepends="openjdk"
+depends="openjdk-jre dbus"
+short_desc="Read and write Unix sockets in Java"
+maintainer="Oliver Nutter <mrnoname1000@riseup.net>"
+license="MIT"
+homepage="http://www.matthew.ath.cx/projects/java/"
+distfiles="http://www.matthew.ath.cx/projects/java/libmatthew-java-${version}.tar.gz"
+checksum=46782b940c71d8db07470633efcf65c2aeda94de9a846fe178a5918fb2ad026f
+
+do_build() {
+	make JAVA_HOME="/usr/lib/jvm/openjdk"
+}
+do_install() {
+	vmkdir usr
+	make PREFIX="${DESTDIR}/usr" install
+	vlicense COPYING
+}
